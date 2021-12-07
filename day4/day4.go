@@ -38,26 +38,25 @@ func main() {
 			//New Board
 			board = newBoard(boardSize)
 			boards = append(boards, board)
-			fmt.Printf("%v", boards)
 		} else {
 			appendRow(&board, row)
 		}
-
+		fmt.Printf("%v", boards)
 	}
 }
 
 func newBoard(size int) Board {
 	b := Board{size: size}
-	b.squares = make([][]Square, size)
-	for i := range b.squares {
-		b.squares[i] = make([]Square, size)
-	}
+	// b.squares = make([][]Square, size)
+	// for i := range b.squares {
+	// 	b.squares[i] = make([]Square, size)
+	// }
 
 	return b
 }
 
 func appendRow(b *Board, row string) {
-	squares := make([]Square, b.size)
+	squares := make([]Square, 5)
 	re := regexp.MustCompile("\\s+")
 	values := re.Split(row, b.size)
 	fmt.Printf("Appending %v with size %d\n", values, b.size)
@@ -66,8 +65,21 @@ func appendRow(b *Board, row string) {
 		squares[i] = Square{marked: false, value: parsed}
 	}
 	b.squares = append(b.squares, squares)
+	fmt.Println(b)
 }
 
 func (b Board) String() string {
-	return fmt.Sprintf("'%d x %d Board'", b.size, b.size)
+	str := ""
+	str += fmt.Sprintf("'%d x %d Board:'\n", b.size, b.size)
+	for _, row := range b.squares {
+		for _, square := range row {
+			if square.marked {
+				str += fmt.Sprintf("\033[31;1;4m%02d\033[0m")
+			} else {
+				str += fmt.Sprintf("%02d ", square.value)
+			}
+		}
+		str += "\n\n"
+	}
+	return str
 }
