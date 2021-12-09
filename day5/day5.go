@@ -41,7 +41,6 @@ func main() {
 					grid[x1][y] += 1
 				}
 			}
-			printGrid(grid)
 		} else if y1 == y2 { // horizontal line
 			fmt.Println("horz")
 			if x2 > x1 {
@@ -53,28 +52,31 @@ func main() {
 					grid[x][y1] += 1
 				}
 			}
-			printGrid(grid)
 		} else {
-			fmt.Println("Skipped")
+			fmt.Println("Diagonal")
 		}
 	}
+	// printGrid(grid)
 }
 
 func printGrid(grid [][]int64) {
 	overlap := 0
+	debug := true
 	for y, _ := range grid {
 		for x, _ := range grid {
 			v := grid[x][y]
 			if v > 1 {
 				overlap++
 			}
-			if (v == 0) {
-				//fmt.Print(".")
-			} else {
-				//fmt.Print(v)
+			if (debug) {
+				if (v == 0) {
+					fmt.Print(".")
+				} else {
+					fmt.Print(v)
+				}
 			}
 		}
-		//fmt.Println()
+		if debug { fmt.Println() }
 	}
 	fmt.Println("Overlap: ", overlap)
 }
